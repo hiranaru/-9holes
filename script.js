@@ -1,65 +1,62 @@
-const holes = Array.from(document.querySelectorAll(".hole-button"));
-const resetButton = document.getElementById("resetButton");
+document.addEventListener("DOMContentLoaded", () => {
+  const holes = document.querySelectorAll(".hole-button");
+  const resetButton = document.getElementById("resetButton");
+  const clearMessage = document.getElementById("clearMessage");
+  const clickSound = document.getElementById("clickSound");
 
-let activatedHoles = [];
-let currentHoleIndex = null;
-let previousHoleIndex = null;
+  // ボタンの影響マップ（押すとどこが切り替わるか）
+  const toggleMap = {
+    0: [0, 1],
+    1: [1, 2],
+    2: [2, 3],
+    3: [3, 4, 5],
+    4: [4, 6],
+    5: [5, 7],
+    6: [6, 8],
+    7: [7],
+    8: [8, 0]
+  };
 
-function resetGame() {
-  activatedHoles = [];
-  currentHoleIndex = null;
-  previousHoleIndex = null;
-  resetButton.style.display = "none";
+  let activeStates = new Array(9).fill(false);
 
-  holes.forEach(hole => {
-    hole.classList.remove("active");
-    hole.disabled = false;
-  });
-
-  activateNextHole();
-}
-
-function activateNextHole() {
-  if (activatedHoles.length >= 9) {
-    showResetButton();
-    return;
-  }
-
-  let availableIndices = holes.map((_, i) => i);
-
-  // 同じボタンが連続しないように除外
-  if (previousHoleIndex !== null) {
-    availableIndices = availableIndices.filter(i => i !== previousHoleIndex);
-  }
-
-  let nextIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-
-  currentHoleIndex = nextIndex;
-  previousHoleIndex = nextIndex;
-  holes[currentHoleIndex].classList.add("active");
-}
-
-holes.forEach((hole, index) => {
-  hole.addEventListener("click", () => {
-    if (index === currentHoleIndex) {
-      hole.classList.remove("active");
-
-      if (!activatedHoles.includes(index)) {
-        activatedHoles.push(index);
+  function updateButtons() {
+    holes.forEach((hole, index) => {
+      if (activeStates[index]) {
+        hole.classList.add("active");
+      } else {
+        hole.classList.remove("active");
       }
+    });
 
-      currentHoleIndex = null;
-
-      setTimeout(activateNextHole, 300);
+    if (activeStates.every(state => state)) {
+      clearMessage.style.display = "block";
+      resetButton.style.display = "block";
     }
+  }
+
+  holes.forEach((hole, index) => {
+    hole.addEventListener("click", () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
+
+      const affected = toggleMap[index];
+      affected.forEach(i => {
+        activeStates[i] = !activeStates[i];
+      });
+
+      updateButtons();
+    });
   });
+
+  resetButton.addEventListener("click", () => {
+    activeStates = new Array(9).fill(false);
+    activeStates[0] = true;
+    clearMessage.style.display = "none";
+    resetButton.style.display = "none";
+    updateButtons();
+  });
+
+  // 初期状態
+  activeStates[0] = true;
+  updateButtons();
 });
-
-function showResetButton() {
-  resetButton.style.display = "block";
-}
-
-resetButton.addEventListener("click", resetGame);
-
-// スタート！
-resetGame();
