@@ -1,12 +1,13 @@
 const holeGrid = document.getElementById('holeGrid');
 const startButton = document.getElementById('startButton');
+const resetButton = document.getElementById('resetButton');
 const clickSound = document.getElementById('clickSound');
 
 let holes = [];
-let activatedIndexes = [];
-let currentActiveIndex = null;
+let activeIndexes = [];
+let currentStep = 1;
+let clickedInThisStep = [];
 
-// 9個のボタンを生成
 for (let i = 0; i < 9; i++) {
   const btn = document.createElement('button');
   btn.classList.add('hole-button');
@@ -14,40 +15,61 @@ for (let i = 0; i < 9; i++) {
   holes.push(btn);
 }
 
-function activateRandomHole() {
-  if (activatedIndexes.length >= 9) {
-    alert('クリア！お疲れさまでした✨');
+function getRandomIndexes(count, exclude = []) {
+  const indexes = [];
+  while (indexes.length < count) {
+    const idx = Math.floor(Math.random() * 9);
+    if (!indexes.includes(idx) && !exclude.includes(idx)) {
+      indexes.push(idx);
+    }
+  }
+  return indexes;
+}
+
+function activateStep() {
+  clickedInThisStep = [];
+
+  if (currentStep > 9) {
+    alert('🎉 コンプリート！全部光ったよ！');
     return;
   }
 
-  let randomIndex;
-  do {
-    randomIndex = Math.floor(Math.random() * 9);
-  } while (activatedIndexes.includes(randomIndex));
+  const indexes = getRandomIndexes(currentStep, activeIndexes);
+  activeIndexes.push(...indexes);
 
-  // 既存の active をリセット
-  holes.forEach(hole => hole.classList.remove('active'));
-
-  currentActiveIndex = randomIndex;
-  holes[randomIndex].classList.add('active');
+  holes.forEach((btn, i) => {
+    btn.classList.toggle('active', activeIndexes.includes(i));
+  });
 }
 
 holes.forEach((hole, index) => {
   hole.addEventListener('click', () => {
-    if (index === currentActiveIndex) {
+    if (activeIndexes.includes(index) && !clickedInThisStep.includes(index)) {
       clickSound.currentTime = 0;
       clickSound.play();
-      activatedIndexes.push(index);
+      clickedInThisStep.push(index);
       hole.classList.remove('active');
-      activateRandomHole();
+
+      if (clickedInThisStep.length === currentStep) {
+        currentStep++;
+        setTimeout(() => {
+          activateStep();
+        }, 400);
+      }
     }
   });
 });
 
 startButton.addEventListener('click', () => {
-  // 初期化
-  activatedIndexes = [];
-  currentActiveIndex = null;
-  holes.forEach(hole => hole.classList.remove('active'));
-  activateRandomHole();
+  currentStep = 1;
+  activeIndexes = [];
+  clickedInThisStep = [];
+  activateStep();
+});
+
+resetButton.addEventListener('click', () => {
+  currentStep = 1;
+  activeIndexes = [];
+  clickedInThisStep = [];
+  holes.forEach(h => h.classList.remove('active'));
 });
