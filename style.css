@@ -6,8 +6,8 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
   background: linear-gradient(to right, #fcece6, #fff8f4, #fcece6);
+  align-items: center;
   position: relative;
 }
 
@@ -22,46 +22,45 @@ body::before {
   background: url('background_final.jpg') no-repeat center center;
   background-size: contain;
   z-index: -1;
-  opacity: 1;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  max-width: 430px;
+  align-items: center;
+  padding: 20px 10px;
+  box-sizing: border-box;
 }
 
 .logo {
   font-size: 36px;
   font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-width: 430px;
-  width: 100%;
+  margin-top: 10px;
 }
 
 .mode-description {
   font-size: 16px;
   color: #444;
-  max-width: 430px;
-  width: 100%;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 5px 0 20px;
   padding: 0 10px;
   line-height: 1.6;
   word-break: break-word;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .hole-grid {
   display: grid;
   grid-template-columns: repeat(3, 90px);
   grid-gap: 20px;
-  padding: 20px;
-  z-index: 1;
+  padding: 20px 0;
+  justify-content: center;
 }
 
 .hole-button {
@@ -87,28 +86,11 @@ body::before {
     inset 0 4px 6px rgba(255, 240, 150, 0.4);
 }
 
-.hole-button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.05);
-}
-
-.reset-button {
-  margin-top: 10px;
-  padding: 12px 28px;
-  font-size: 18px;
-  background-color: #ffd6d6;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  display: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
 .mode-toggle {
   display: flex;
   justify-content: center;
-  margin: 20px 0 10px 0;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .mode-toggle button {
