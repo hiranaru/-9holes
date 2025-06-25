@@ -3,6 +3,7 @@ const resetBtn = document.getElementById("resetBtn");
 const popSound = document.getElementById("popSound");
 const switchToRandom = document.getElementById("switchToRandom");
 const switchToPuzzle = document.getElementById("switchToPuzzle");
+const modeDescription = document.getElementById("modeDescription"); // 👈 追加
 
 let mode = "random";
 let buttons = [];
@@ -132,6 +133,13 @@ function resetGame() {
 function updateModeButtons() {
   switchToRandom.classList.toggle("active-mode", mode === "random");
   switchToPuzzle.classList.toggle("active-mode", mode === "puzzle");
+
+  // 👇 説明テキストを切り替え
+  if (mode === "random") {
+    modeDescription.textContent = "🎯 ランダムモード：押して楽しい息抜きモード。光るボタンをどんどん押して癒されよう！";
+  } else if (mode === "puzzle") {
+    modeDescription.textContent = "🧩 パズルモード：規則を見抜いてすべてのボタンを点灯させよう！クリアできるかな？";
+  }
 }
 
 switchToRandom.addEventListener("click", () => {
@@ -148,6 +156,7 @@ switchToPuzzle.addEventListener("click", () => {
 
 resetBtn.addEventListener("click", resetGame);
 
+// 初期化
 createButtons();
 updateModeButtons();
 resetGame();
