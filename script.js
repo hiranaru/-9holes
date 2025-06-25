@@ -1,75 +1,65 @@
-const holeGrid = document.getElementById('holeGrid');
-const startButton = document.getElementById('startButton');
-const resetButton = document.getElementById('resetButton');
-const clickSound = document.getElementById('clickSound');
+const holes = Array.from(document.querySelectorAll(".hole-button"));
+const resetButton = document.getElementById("resetButton");
 
-let holes = [];
-let activeIndexes = [];
-let currentStep = 1;
-let clickedInThisStep = [];
+let activatedHoles = [];
+let currentHoleIndex = null;
+let previousHoleIndex = null;
 
-for (let i = 0; i < 9; i++) {
-  const btn = document.createElement('button');
-  btn.classList.add('hole-button');
-  holeGrid.appendChild(btn);
-  holes.push(btn);
+function resetGame() {
+  activatedHoles = [];
+  currentHoleIndex = null;
+  previousHoleIndex = null;
+  resetButton.style.display = "none";
+
+  holes.forEach(hole => {
+    hole.classList.remove("active");
+    hole.disabled = false;
+  });
+
+  activateNextHole();
 }
 
-function getRandomIndexes(count, exclude = []) {
-  const indexes = [];
-  while (indexes.length < count) {
-    const idx = Math.floor(Math.random() * 9);
-    if (!indexes.includes(idx) && !exclude.includes(idx)) {
-      indexes.push(idx);
-    }
-  }
-  return indexes;
-}
-
-function activateStep() {
-  clickedInThisStep = [];
-
-  if (currentStep > 9) {
-    alert('🎉 コンプリート！全部光ったよ！');
+function activateNextHole() {
+  if (activatedHoles.length >= 9) {
+    showResetButton();
     return;
   }
 
-  const indexes = getRandomIndexes(currentStep, activeIndexes);
-  activeIndexes.push(...indexes);
+  let availableIndices = holes.map((_, i) => i);
 
-  holes.forEach((btn, i) => {
-    btn.classList.toggle('active', activeIndexes.includes(i));
-  });
+  // 同じボタンが連続しないように除外
+  if (previousHoleIndex !== null) {
+    availableIndices = availableIndices.filter(i => i !== previousHoleIndex);
+  }
+
+  let nextIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+
+  currentHoleIndex = nextIndex;
+  previousHoleIndex = nextIndex;
+  holes[currentHoleIndex].classList.add("active");
 }
 
 holes.forEach((hole, index) => {
-  hole.addEventListener('click', () => {
-    if (activeIndexes.includes(index) && !clickedInThisStep.includes(index)) {
-      clickSound.currentTime = 0;
-      clickSound.play();
-      clickedInThisStep.push(index);
-      hole.classList.remove('active');
+  hole.addEventListener("click", () => {
+    if (index === currentHoleIndex) {
+      hole.classList.remove("active");
 
-      if (clickedInThisStep.length === currentStep) {
-        currentStep++;
-        setTimeout(() => {
-          activateStep();
-        }, 400);
+      if (!activatedHoles.includes(index)) {
+        activatedHoles.push(index);
       }
+
+      currentHoleIndex = null;
+
+      setTimeout(activateNextHole, 300);
     }
   });
 });
 
-startButton.addEventListener('click', () => {
-  currentStep = 1;
-  activeIndexes = [];
-  clickedInThisStep = [];
-  activateStep();
-});
+function showResetButton() {
+  resetButton.style.display = "block";
+}
 
-resetButton.addEventListener('click', () => {
-  currentStep = 1;
-  activeIndexes = [];
-  clickedInThisStep = [];
-  holes.forEach(h => h.classList.remove('active'));
-});
+resetButton.addEventListener("click", resetGame);
+
+// スタート！
+resetGame();
