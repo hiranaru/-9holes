@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: linear-gradient(to right, #fcece6, #fff8f4, #fcece6);
   display: flex;
@@ -16,7 +16,7 @@ body::before {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 430px;
   height: 100%;
   background: url('background_final.jpg') no-repeat center center;
   background-size: contain;
@@ -31,10 +31,12 @@ body::before {
   align-items: center;
   width: 100%;
   max-width: 430px;
-  height: 100vh;
+  height: 100dvh;
   padding: 20px 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
+
 
 .logo {
   font-size: 32px;
