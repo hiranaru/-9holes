@@ -28,35 +28,22 @@ body {
   height: 90px;
   border-radius: 50%;
   border: none;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0);
+  background: radial-gradient(ellipse at top left, #ffffff, #e0e0e0);
   box-shadow:
-    inset -3px -3px 6px rgba(255, 255, 255, 0.8),
-    inset 3px 3px 8px rgba(200, 200, 200, 0.3),
-    0 6px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-  cursor: pointer;
-  outline: none;
+    inset -4px -4px 10px rgba(255,255,255,0.8),
+    inset 4px 4px 10px rgba(0,0,0,0.1),
+    0 4px 6px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
 }
 
-.hole-button:active {
-  transform: scale(0.95);
-  box-shadow:
-    inset 4px 4px 6px rgba(220, 220, 220, 0.5),
-    inset -2px -2px 4px rgba(255, 255, 255, 0.6),
-    0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* ✨光ってるとき */
 .hole-button.active {
-  background: radial-gradient(circle at 30% 30%, #fff3b0, #ffd36b);
+  background: radial-gradient(ellipse at top left, #ffe066, #ffc107);
   box-shadow:
-    inset -4px -4px 8px rgba(255, 255, 255, 0.6),
-    inset 4px 4px 12px rgba(255, 174, 0, 0.5),
-    0 0 25px rgba(255, 200, 50, 0.7);
-  transform: scale(1.08);
+    inset -2px -2px 6px rgba(255,255,255,0.6),
+    inset 2px 2px 6px rgba(0,0,0,0.2),
+    0 4px 12px rgba(255, 193, 7, 0.6);
+  transform: scale(1.1);
 }
-
-
 
 .reset-button {
   margin-top: 30px;
@@ -66,6 +53,17 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  display: none;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.clear-message {
+  background-color: #fff8e1;
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 223, 94, 0.6);
+  font-size: 20px;
+  color: #8b6b00;
+  font-weight: bold;
+  display: none;
 }
