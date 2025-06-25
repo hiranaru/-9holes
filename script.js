@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const holes = document.querySelectorAll(".hole-button");
   const resetButton = document.getElementById("resetButton");
   const clearMessage = document.getElementById("clearMessage");
+  const clickSound = document.getElementById("clickSound");
 
-  // 押すと影響するボタンを定義（indexで指定）
+  // ボタンの影響マップ（押すとどこが切り替わるか）
   const toggleMap = {
     0: [0, 1],
     1: [1, 2],
@@ -16,12 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     8: [8, 0]
   };
 
-  // 音声
-  const clickSound = new Audio("Onoma-Pop04-4(High-Wet).mp3");
+  let activeStates = new Array(9).fill(false);
 
-  let activeStates = new Array(9).fill(false); // 各ボタンの点灯状態
-
-  // ボタン状態の更新
   function updateButtons() {
     holes.forEach((hole, index) => {
       if (activeStates[index]) {
@@ -31,14 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // すべてのボタンが点灯していたらクリア
     if (activeStates.every(state => state)) {
       clearMessage.style.display = "block";
       resetButton.style.display = "block";
     }
   }
 
-  // ボタンが押されたときの処理
   holes.forEach((hole, index) => {
     hole.addEventListener("click", () => {
       clickSound.currentTime = 0;
@@ -46,23 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const affected = toggleMap[index];
       affected.forEach(i => {
-        activeStates[i] = !activeStates[i]; // 状態を反転
+        activeStates[i] = !activeStates[i];
       });
 
       updateButtons();
     });
   });
 
-  // リセット
   resetButton.addEventListener("click", () => {
     activeStates = new Array(9).fill(false);
+    activeStates[0] = true;
     clearMessage.style.display = "none";
     resetButton.style.display = "none";
-    activeStates[0] = true; // 最初に1個点灯
     updateButtons();
   });
 
-  // 初期状態：1つだけ点灯
+  // 初期状態
   activeStates[0] = true;
   updateButtons();
 });
