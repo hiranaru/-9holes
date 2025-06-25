@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>9 Holes</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
 <body>
   <div class="background">
+    <!-- アニメーション背景だけ -->
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
     <div class="grass grass1"></div>
     <div class="grass grass2"></div>
   </div>
 
+  <!-- ここにゲーム本体を追加 -->
+  <div class="game-container">
+    <h1>9 Holes</h1>
+    <div id="holes-grid"></div>
+    <button id="startBtn">PLAY</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
-</html>
