@@ -1,62 +1,138 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const holes = document.querySelectorAll(".hole-button");
-  const resetButton = document.getElementById("resetButton");
-  const clearMessage = document.getElementById("clearMessage");
-  const clickSound = document.getElementById("clickSound");
+const holeGrid = document.getElementById("holeGrid");
+const resetBtn = document.getElementById("resetBtn");
+const popSound = document.getElementById("popSound");
+const switchToRandom = document.getElementById("switchToRandom");
+const switchToPuzzle = document.getElementById("switchToPuzzle");
 
-  // ボタンの影響マップ（押すとどこが切り替わるか）
-  const toggleMap = {
-    0: [0, 1],
-    1: [1, 2],
-    2: [2, 3],
-    3: [3, 4, 5],
-    4: [4, 6],
-    5: [5, 7],
-    6: [6, 8],
-    7: [7],
-    8: [8, 0]
-  };
+let mode = "random"; // or "puzzle"
+let buttons = [];
+let litButtons = new Set();
+let pressedButtons = new Set();
+let previousLit = [];
+let stage = 1;
+const maxStages = 9;
 
-  let activeStates = new Array(9).fill(false);
+const toggleMap = {
+  0: [0, 1, 3],
+  1: [1, 0, 2, 4],
+  2: [2, 1, 5],
+  3: [3, 0, 4, 6],
+  4: [4, 1, 3, 5, 7],
+  5: [5, 2, 4, 8],
+  6: [6, 3, 7],
+  7: [7, 4, 6, 8],
+  8: [8, 5, 7]
+};
 
-  function updateButtons() {
-    holes.forEach((hole, index) => {
-      if (activeStates[index]) {
-        hole.classList.add("active");
-      } else {
-        hole.classList.remove("active");
-      }
-    });
+function createButtons() {
+  holeGrid.innerHTML = "";
+  buttons = [];
+  for (let i = 0; i < 9; i++) {
+    const btn = document.createElement("button");
+    btn.classList.add("hole-button");
+    btn.dataset.index = i;
+    btn.addEventListener("click", () => handlePress(i));
+    holeGrid.appendChild(btn);
+    buttons.push(btn);
+  }
+}
 
-    if (activeStates.every(state => state)) {
-      clearMessage.style.display = "block";
-      resetButton.style.display = "block";
+function playSound() {
+  popSound.currentTime = 0;
+  popSound.play();
+}
+
+function lightRandomButtons() {
+  let count = stage <= 3 ? stage : Math.floor(Math.random() * 5) + 1;
+  const newLit = [];
+  while (newLit.length < count) {
+    let idx = Math.floor(Math.random() * 9);
+    if (!pressedButtons.has(idx) && !previousLit.includes(idx) && !newLit.includes(idx)) {
+      newLit.push(idx);
     }
   }
+  previousLit = [...newLit];
+  litButtons = new Set(newLit);
+  updateLighting();
+}
 
-  holes.forEach((hole, index) => {
-    hole.addEventListener("click", () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
+function updateLighting() {
+  buttons.forEach((btn, i) => {
+    btn.classList.toggle("active", litButtons.has(i));
+  });
+}
 
-      const affected = toggleMap[index];
-      affected.forEach(i => {
-        activeStates[i] = !activeStates[i];
-      });
+function handlePress(index) {
+  playSound();
 
-      updateButtons();
+  if (mode === "random") {
+    if (litButtons.has(index)) {
+      pressedButtons.add(index);
+      if ([...litButtons].every(i => pressedButtons.has(i))) {
+        stage++;
+        litButtons.clear();
+        if (stage <= maxStages) {
+          lightRandomButtons();
+        } else {
+          showVictory();
+        }
+      }
+    }
+  } else if (mode === "puzzle") {
+    toggleMap[index].forEach(i => {
+      if (litButtons.has(i)) {
+        litButtons.delete(i);
+      } else {
+        litButtons.add(i);
+      }
     });
-  });
+    updateLighting();
+    if (litButtons.size === 9) {
+      showVictory();
+    }
+  }
+}
 
-  resetButton.addEventListener("click", () => {
-    activeStates = new Array(9).fill(false);
-    activeStates[0] = true;
-    clearMessage.style.display = "none";
-    resetButton.style.display = "none";
-    updateButtons();
-  });
+function showVictory() {
+  const winMsg = document.createElement("div");
+  winMsg.textContent = "🎉 ゲームクリア！ 🎉";
+  winMsg.style.position = "fixed";
+  winMsg.style.top = "40%";
+  winMsg.style.left = "50%";
+  winMsg.style.transform = "translate(-50%, -50%)";
+  winMsg.style.background = "#ffffffdd";
+  winMsg.style.padding = "30px";
+  winMsg.style.fontSize = "28px";
+  winMsg.style.borderRadius = "20px";
+  winMsg.style.boxShadow = "0 6px 12px rgba(0,0,0,0.2)";
+  document.body.appendChild(winMsg);
+  setTimeout(() => {
+    winMsg.remove();
+  }, 3000);
+  resetBtn.style.display = "block";
+}
 
-  // 初期状態
-  activeStates[0] = true;
-  updateButtons();
+function resetGame() {
+  litButtons.clear();
+  pressedButtons.clear();
+  stage = 1;
+  previousLit = [];
+  updateLighting();
+  resetBtn.style.display = "none";
+  if (mode === "random") {
+    lightRandomButtons();
+  }
+}
+
+switchToRandom.addEventListener("click", () => {
+  mode = "random";
+  resetGame();
 });
+
+switchToPuzzle.addEventListener("click", () => {
+  mode = "puzzle";
+  resetGame();
+});
+
+createButtons();
+resetGame();
