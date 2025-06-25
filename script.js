@@ -3,8 +3,9 @@ const resetBtn = document.getElementById("resetBtn");
 const popSound = document.getElementById("popSound");
 const switchToRandom = document.getElementById("switchToRandom");
 const switchToPuzzle = document.getElementById("switchToPuzzle");
+const modeDescription = document.getElementById("modeDescription");
 
-let mode = "random"; // or "puzzle"
+let mode = "random";
 let buttons = [];
 let litButtons = new Set();
 let pressedButtons = new Set();
@@ -68,9 +69,14 @@ function handlePress(index) {
   if (mode === "random") {
     if (litButtons.has(index)) {
       pressedButtons.add(index);
-      if ([...litButtons].every(i => pressedButtons.has(i))) {
+      litButtons.delete(index);
+      buttons[index].classList.remove("active");
+
+      if ([...previousLit].every(i => pressedButtons.has(i))) {
         stage++;
+        pressedButtons.clear();
         litButtons.clear();
+
         if (stage <= maxStages) {
           lightRandomButtons();
         } else {
@@ -108,7 +114,7 @@ function showVictory() {
   document.body.appendChild(winMsg);
   setTimeout(() => {
     winMsg.remove();
-  }, 3000);
+  }, 1000);
   resetBtn.style.display = "block";
 }
 
@@ -124,15 +130,29 @@ function resetGame() {
   }
 }
 
+function updateModeButtons() {
+  switchToRandom.classList.toggle("active-mode", mode === "random");
+  switchToPuzzle.classList.toggle("active-mode", mode === "puzzle");
+
+  modeDescription.innerText = mode === "random"
+    ? "光るボタンを押していこう！押すと次に新しいボタンがランダムに光るよ。"
+    : "押すと周りのボタンが光るよ。全部光らせてね。";
+}
+
 switchToRandom.addEventListener("click", () => {
   mode = "random";
+  updateModeButtons();
   resetGame();
 });
 
 switchToPuzzle.addEventListener("click", () => {
   mode = "puzzle";
+  updateModeButtons();
   resetGame();
 });
 
+resetBtn.addEventListener("click", resetGame);
+
 createButtons();
+updateModeButtons();
 resetGame();
