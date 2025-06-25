@@ -20,14 +20,14 @@ function resetGame() {
 }
 
 function activateNextHole() {
-  if (activatedHoles.length >= 9) {
+  if (activatedHoles.length >= holes.length) {
     showResetButton();
     return;
   }
 
   let availableIndices = holes.map((_, i) => i);
 
-  // 同じボタンが連続しないように除外
+  // 同じボタンが連続して光らないように
   if (previousHoleIndex !== null) {
     availableIndices = availableIndices.filter(i => i !== previousHoleIndex);
   }
@@ -36,6 +36,7 @@ function activateNextHole() {
 
   currentHoleIndex = nextIndex;
   previousHoleIndex = nextIndex;
+
   holes[currentHoleIndex].classList.add("active");
 }
 
@@ -49,7 +50,6 @@ holes.forEach((hole, index) => {
       }
 
       currentHoleIndex = null;
-
       setTimeout(activateNextHole, 300);
     }
   });
@@ -61,5 +61,5 @@ function showResetButton() {
 
 resetButton.addEventListener("click", resetGame);
 
-// スタート！
+// 起動時に開始
 resetGame();
