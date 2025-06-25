@@ -1,79 +1,93 @@
-/* ベース設定 */
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica Neue', sans-serif;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
   background-image: url('background_final.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  color: #fff;
 }
 
-h1 {
-  font-size: 2.2rem;
-  color: #ffffffcc;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* ゲームコンテナ */
-.game-container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(4px);
-  padding: 1rem;
-}
-
-/* グリッド */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 70px);
-  grid-gap: 16px;
+  padding: 2rem 1rem;
+  height: 100%;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3); /* 透明フィルター */
+}
+
+.title {
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-/* ホールボタン */
+.hole-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
 .hole-button {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  border: 2px solid #fff;
-  background-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: all 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.hole-button:hover {
-  cursor: pointer;
-  transform: scale(1.05);
+.hole-button:active {
+  transform: scale(0.95);
 }
 
 .hole-button.active {
-  background-color: rgba(255, 255, 200, 0.8);
-  box-shadow: 0 0 10px rgba(255, 255, 160, 0.9);
+  background-color: rgba(255, 255, 200, 0.9);
+  box-shadow: 0 0 12px rgba(255, 255, 150, 0.8);
 }
 
-/* PLAYボタン */
-.start-button {
-  padding: 12px 28px;
+#startButton {
+  padding: 0.8rem 2rem;
   font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.6);
   border: none;
-  border-radius: 24px;
-  background: linear-gradient(145deg, #fceabb, #f8b500);
-  color: #333;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
 }
 
-.start-button:hover {
-  cursor: pointer;
-  transform: scale(1.05);
+#startButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 480px) {
+  .hole-grid {
+    grid-template-columns: repeat(3, 60px);
+    gap: 12px;
+  }
+
+  .hole-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  #startButton {
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+  }
 }
