@@ -11,7 +11,6 @@ let litButtons = new Set();
 let pressedButtons = new Set();
 let previousLit = [];
 let stage = 1;
-const maxStages = 9;
 
 const toggleMap = {
   0: [0, 1, 3],
@@ -45,13 +44,26 @@ function playSound() {
 
 function lightRandomButtons() {
   let count = stage <= 3 ? stage : Math.floor(Math.random() * 5) + 1;
+
+  const candidates = Array.from({ length: 9 }, (_, i) => i)
+    .filter(i => !pressedButtons.has(i) && !previousLit.includes(i));
+
+  if (candidates.length === 0) {
+    stage++; // ステージだけ進めて繰り返す
+    pressedButtons.clear();
+    previousLit = [];
+    lightRandomButtons();
+    return;
+  }
+
   const newLit = [];
-  while (newLit.length < count) {
-    let idx = Math.floor(Math.random() * 9);
-    if (!pressedButtons.has(idx) && !previousLit.includes(idx) && !newLit.includes(idx)) {
+  while (newLit.length < Math.min(count, candidates.length)) {
+    let idx = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!newLit.includes(idx)) {
       newLit.push(idx);
     }
   }
+
   previousLit = [...newLit];
   litButtons = new Set(newLit);
   updateLighting();
@@ -76,12 +88,7 @@ function handlePress(index) {
         stage++;
         pressedButtons.clear();
         litButtons.clear();
-
-        if (stage <= maxStages) {
-          lightRandomButtons();
-        } else {
-          showVictory();
-        }
+        lightRandomButtons(); // 続行
       }
     }
   } else if (mode === "puzzle") {
@@ -124,7 +131,7 @@ function resetGame() {
   stage = 1;
   previousLit = [];
   updateLighting();
-  resetBtn.style.display = "none";
+  resetBtn.style.display = mode === "puzzle" ? "block" : "none";
   if (mode === "random") {
     lightRandomButtons();
   }
