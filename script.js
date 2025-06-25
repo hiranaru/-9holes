@@ -3,33 +3,40 @@ const resetButton = document.getElementById('resetButton');
 const popSound = new Audio('Onoma-Pop04-4(High-Wet).mp3');
 
 let clickedHoles = new Set();
-let previouslyLit = new Set();
-let gameStage = 1; // 初期段階は1個点灯
+let gameStage = 1;
 let gameStarted = false;
 
+let currentLitHoles = new Set(); // 今回光った
+let lastLitHoles = new Set();    // 前回光った
+
 function getRandomHoles(count) {
-  const indices = Array.from({ length: holeButtons.length }, (_, i) => i)
-    .filter(i => !previouslyLit.has(i)); // 前回光ったものは除外
+  const candidates = Array.from({ length: holeButtons.length }, (_, i) => i)
+    .filter(i => !clickedHoles.has(i) && !lastLitHoles.has(i));
+
   const selected = new Set();
-  while (selected.size < count && indices.length > 0) {
-    const randIndex = Math.floor(Math.random() * indices.length);
-    selected.add(indices.splice(randIndex, 1)[0]);
+  while (selected.size < count && candidates.length > 0) {
+    const randIndex = Math.floor(Math.random() * candidates.length);
+    selected.add(candidates.splice(randIndex, 1)[0]);
   }
   return Array.from(selected);
 }
 
 function lightUpHoles(count) {
   clearLights();
-  const holesToLight = getRandomHoles(count);
-  holesToLight.forEach(index => {
+  const newHoles = getRandomHoles(count);
+  currentLitHoles = new Set(newHoles);
+
+  newHoles.forEach(index => {
     holeButtons[index].classList.add('active');
-    previouslyLit.add(index);
   });
+
+  // この段階で光ったボタンを「次回の除外対象」に
+  lastLitHoles = new Set(newHoles);
 }
 
 function clearLights() {
   holeButtons.forEach(btn => btn.classList.remove('active'));
-  previouslyLit.clear();
+  currentLitHoles.clear();
 }
 
 function handleClick(e) {
@@ -40,11 +47,12 @@ function handleClick(e) {
     popSound.play();
 
     clickedHoles.add(index);
+    currentLitHoles.delete(index); // 今押すべき中から除外
 
     if (clickedHoles.size === 9) {
       showClearMessage();
-    } else {
-      // 次の段階に進める（最大5個まで増える）
+    } else if (currentLitHoles.size === 0) {
+      // 次のステージへ
       gameStage = Math.min(gameStage + 1, 5);
       lightUpHoles(gameStage);
     }
@@ -53,13 +61,14 @@ function handleClick(e) {
 
 function showClearMessage() {
   clearLights();
-  alert("🎉 おめでとう！すべて見つけたね！");
+  alert("🌟 全部見つけたね！気持ちよかった？");
   resetButton.style.display = 'block';
 }
 
 function resetGame() {
   clickedHoles.clear();
-  previouslyLit.clear();
+  currentLitHoles.clear();
+  lastLitHoles.clear();
   gameStage = 1;
   resetButton.style.display = 'none';
   lightUpHoles(gameStage);
@@ -68,7 +77,7 @@ function resetGame() {
 holeButtons.forEach(btn => btn.addEventListener('click', handleClick));
 resetButton.addEventListener('click', resetGame);
 
-// ゲーム開始時に1つ光らせる
+// 最初に1個光らせてスタート
 window.onload = () => {
   if (!gameStarted) {
     gameStarted = true;
