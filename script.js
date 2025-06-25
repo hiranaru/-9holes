@@ -1,38 +1,56 @@
-const game = document.getElementById('game');
-const holes = [];
-const activated = new Set();
+const gridContainer = document.getElementById("holeGrid");
+const playButton = document.getElementById("playButton");
+const clickSound = document.getElementById("clickSound");
 
-for (let i = 0; i < 9; i++) {
-  const btn = document.createElement('div');
-  btn.classList.add('hole');
-  game.appendChild(btn);
-  holes.push(btn);
-}
+let currentActiveIndex = -1;
+let clickedIndices = [];
 
-function playSound() {
-  const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg');
-  audio.play();
+function createHoles() {
+  gridContainer.innerHTML = "";
+  for (let i = 0; i < 9; i++) {
+    const hole = document.createElement("div");
+    hole.classList.add("hole");
+    hole.dataset.index = i;
+    hole.addEventListener("click", handleHoleClick);
+    gridContainer.appendChild(hole);
+  }
 }
 
 function activateRandomHole() {
-  if (activated.size === 9) {
-    alert("クリア！");
+  if (clickedIndices.length >= 9) {
+    alert("クリア！おつかれさまでした🌟");
     return;
   }
+
   let index;
   do {
     index = Math.floor(Math.random() * 9);
-  } while (activated.has(index));
-  holes.forEach(h => h.classList.remove('active'));
-  holes[index].classList.add('active');
-  holes[index].onclick = () => {
-    if (!activated.has(index)) {
-      activated.add(index);
-      playSound();
-      holes[index].classList.remove('active');
-      activateRandomHole();
-    }
-  };
+  } while (clickedIndices.includes(index));
+
+  currentActiveIndex = index;
+  updateHoleStyles();
 }
 
-activateRandomHole();
+function updateHoleStyles() {
+  const holes = document.querySelectorAll(".hole");
+  holes.forEach((hole, idx) => {
+    hole.classList.toggle("active", idx === currentActiveIndex);
+  });
+}
+
+function handleHoleClick(e) {
+  const index = parseInt(e.target.dataset.index);
+  if (index === currentActiveIndex && !clickedIndices.includes(index)) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+    clickedIndices.push(index);
+    currentActiveIndex = -1;
+    activateRandomHole();
+  }
+}
+
+playButton.addEventListener("click", () => {
+  clickedIndices = [];
+  createHoles();
+  activateRandomHole();
+});
