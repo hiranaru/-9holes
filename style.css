@@ -1,14 +1,54 @@
 body {
   margin: 0;
   padding: 0;
-  background: url('background_final.jpg') no-repeat center center fixed;
-  background-size: contain;
   font-family: 'Segoe UI', sans-serif;
   height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+/* 背景画像レイヤー */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('background_final.jpg') no-repeat center center fixed;
+  background-size: contain;
+  z-index: -3;
+}
+
+/* ノイズブラーエフェクト */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 30%, #ffedd5, transparent 60%),
+    radial-gradient(circle at 85% 70%, #ffe4e6, transparent 60%);
+  filter: blur(50px);
+  opacity: 0.3;
+  animation: noiseFloat 10s ease-in-out infinite alternate;
+}
+
+@keyframes noiseFloat {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(20px) translateX(10px);
+  }
 }
 
 .game-container {
@@ -30,11 +70,11 @@ body {
   height: 90px;
   border-radius: 50%;
   border: none;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #ffefef);
+  background: radial-gradient(circle at 30% 30%, #ffffff, #fff0f5);
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    inset 0 -4px 6px rgba(255, 255, 255, 0.5),
-    inset 0 4px 6px rgba(255, 192, 203, 0.4);
+    0 6px 12px rgba(0, 0, 0, 0.2),
+    inset 0 -6px 8px rgba(255, 255, 255, 0.5),
+    inset 0 6px 8px rgba(255, 192, 203, 0.4);
   transition: transform 0.2s, background-color 0.3s;
   cursor: pointer;
 }
@@ -43,7 +83,7 @@ body {
   background: radial-gradient(circle at 30% 30%, #fffbe0, #ffe066);
   transform: scale(1.1);
   box-shadow:
-    0 0 20px rgba(255, 240, 100, 0.8),
+    0 0 24px rgba(255, 240, 100, 0.8),
     inset 0 -4px 6px rgba(255, 255, 200, 0.5),
     inset 0 4px 6px rgba(255, 240, 150, 0.4);
 }
@@ -91,36 +131,4 @@ body {
   background-color: #ffe066;
   color: #333;
   transform: scale(1.05);
-}
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  width: 30vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.3;
-  pointer-events: none;
-  animation: noiseFloat 15s ease-in-out infinite alternate;
-  filter: blur(40px);
-  background: radial-gradient(circle at 30% 30%, #ffedd5, #fcd5ce, #f9e2e2);
-}
-
-body::before {
-  left: 0;
-}
-
-body::after {
-  right: 0;
-  background: radial-gradient(circle at 70% 70%, #ffe4e6, #fadadd, #fef2f2);
-}
-
-@keyframes noiseFloat {
-  0% {
-    transform: translateY(0px) translateX(0px);
-  }
-  100% {
-    transform: translateY(30px) translateX(20px);
-  }
 }
