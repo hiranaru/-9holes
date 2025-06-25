@@ -1,56 +1,45 @@
-const gridContainer = document.getElementById("holeGrid");
-const playButton = document.getElementById("playButton");
-const clickSound = document.getElementById("clickSound");
+const grid = document.getElementById("holes-grid");
+const startBtn = document.getElementById("startBtn");
 
-let currentActiveIndex = -1;
+let currentIndex = -1;
 let clickedIndices = [];
 
-function createHoles() {
-  gridContainer.innerHTML = "";
+function createGrid() {
+  grid.innerHTML = "";
   for (let i = 0; i < 9; i++) {
-    const hole = document.createElement("div");
-    hole.classList.add("hole");
-    hole.dataset.index = i;
-    hole.addEventListener("click", handleHoleClick);
-    gridContainer.appendChild(hole);
+    const btn = document.createElement("button");
+    btn.addEventListener("click", () => handleClick(i));
+    grid.appendChild(btn);
   }
 }
 
-function activateRandomHole() {
-  if (clickedIndices.length >= 9) {
-    alert("クリア！おつかれさまでした🌟");
-    return;
-  }
-
-  let index;
+function highlightRandomHole() {
+  const buttons = grid.querySelectorAll("button");
+  let newIndex;
   do {
-    index = Math.floor(Math.random() * 9);
-  } while (clickedIndices.includes(index));
+    newIndex = Math.floor(Math.random() * 9);
+  } while (clickedIndices.includes(newIndex));
 
-  currentActiveIndex = index;
-  updateHoleStyles();
+  buttons.forEach(btn => btn.classList.remove("active"));
+  buttons[newIndex].classList.add("active");
+  currentIndex = newIndex;
 }
 
-function updateHoleStyles() {
-  const holes = document.querySelectorAll(".hole");
-  holes.forEach((hole, idx) => {
-    hole.classList.toggle("active", idx === currentActiveIndex);
-  });
-}
-
-function handleHoleClick(e) {
-  const index = parseInt(e.target.dataset.index);
-  if (index === currentActiveIndex && !clickedIndices.includes(index)) {
-    clickSound.currentTime = 0;
-    clickSound.play();
+function handleClick(index) {
+  if (index === currentIndex) {
     clickedIndices.push(index);
-    currentActiveIndex = -1;
-    activateRandomHole();
+    if (clickedIndices.length === 9) {
+      alert("クリア！");
+    } else {
+      highlightRandomHole();
+    }
   }
 }
 
-playButton.addEventListener("click", () => {
+startBtn.addEventListener("click", () => {
   clickedIndices = [];
-  createHoles();
-  activateRandomHole();
+  createGrid();
+  highlightRandomHole();
 });
+
+createGrid();
