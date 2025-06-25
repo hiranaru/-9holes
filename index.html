@@ -7,17 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- 背景画像：CSSで描画するため img は不要 -->
-
   <div class="game-container">
     <div class="hole-grid" id="holeGrid"></div>
-
-    <div class="mode-toggle">
-      <button id="switchToRandom">🎯 ランダムモード</button>
-      <button id="switchToPuzzle">🧩 パズルモード</button>
-    </div>
+    <button class="reset-button" id="resetBtn">リセット</button>
   </div>
+
+<div class="mode-toggle">
+  <button id="switchToRandom">
+   ランダムモード
+  </button>
+  <button id="switchToPuzzle">
+   パズルモード
+  </button>
+</div>
+
 
   <audio id="popSound" src="Onoma-Pop04-4(High-Wet).mp3" preload="auto"></audio>
   <script src="script.js"></script>
