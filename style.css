@@ -1,93 +1,51 @@
-* {
-  box-sizing: border-box;
+body {
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-image: url('background_final.jpg');
+  background: url('background_final.jpg') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  font-family: sans-serif;
   height: 100vh;
-  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.container {
+.game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem;
-  height: 100%;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3); /* 透明フィルター */
-}
-
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .hole-grid {
   display: grid;
-  grid-template-columns: repeat(3, 80px);
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(3, 90px);
+  grid-gap: 20px;
+  padding: 20px;
 }
 
 .hole-button {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
   border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.hole-button:active {
-  transform: scale(0.95);
+  background-color: #ffffffcc;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .hole-button.active {
-  background-color: rgba(255, 255, 200, 0.9);
-  box-shadow: 0 0 12px rgba(255, 255, 150, 0.8);
+  background-color: #ffe066;
+  transform: scale(1.1);
 }
 
-#startButton {
-  padding: 0.8rem 2rem;
-  font-size: 1.2rem;
-  background-color: rgba(255, 255, 255, 0.6);
+.reset-button {
+  margin-top: 30px;
+  padding: 12px 28px;
+  font-size: 18px;
+  background-color: #ffd6d6;
   border: none;
-  border-radius: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s;
-}
-
-#startButton:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-@media (max-width: 480px) {
-  .hole-grid {
-    grid-template-columns: repeat(3, 60px);
-    gap: 12px;
-  }
-
-  .hole-button {
-    width: 60px;
-    height: 60px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  #startButton {
-    font-size: 1rem;
-    padding: 0.6rem 1.5rem;
-  }
+  border-radius: 8px;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
