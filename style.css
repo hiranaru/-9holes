@@ -23,19 +23,36 @@ body {
   padding: 20px;
 }
 
+/* 🌟 ぷにっと立体感のあるホールボタン */
 .hole-button {
   width: 90px;
   height: 90px;
   border-radius: 50%;
   border: none;
-  background-color: #ffffffcc;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  transition: background-color 0.3s, transform 0.2s;
+  background: linear-gradient(to bottom, #ffffff, #dce6ff);
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.2),
+    inset 0 -4px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
 }
 
+.hole-button:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.2),
+    inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 🌟 光った状態（アクティブ） */
 .hole-button.active {
-  background-color: #ffe066;
-  transform: scale(1.1);
+  background: linear-gradient(to bottom, #fff3b0, #ffd36b);
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.15),
+    0 0 10px rgba(255, 213, 107, 0.8),
+    inset 0 -2px 4px rgba(255, 174, 0, 0.3);
+  transform: scale(1.05);
 }
 
 .reset-button {
