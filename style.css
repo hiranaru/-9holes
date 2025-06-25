@@ -92,3 +92,35 @@ body {
   color: #333;
   transform: scale(1.05);
 }
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  width: 30vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: noiseFloat 15s ease-in-out infinite alternate;
+  filter: blur(40px);
+  background: radial-gradient(circle at 30% 30%, #ffedd5, #fcd5ce, #f9e2e2);
+}
+
+body::before {
+  left: 0;
+}
+
+body::after {
+  right: 0;
+  background: radial-gradient(circle at 70% 70%, #ffe4e6, #fadadd, #fef2f2);
+}
+
+@keyframes noiseFloat {
+  0% {
+    transform: translateY(0px) translateX(0px);
+  }
+  100% {
+    transform: translateY(30px) translateX(20px);
+  }
+}
