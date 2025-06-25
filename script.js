@@ -1,83 +1,53 @@
-const grid = document.getElementById("holes-grid");
-const startBtn = document.getElementById("startBtn");
+const holeGrid = document.getElementById('holeGrid');
+const startButton = document.getElementById('startButton');
+const clickSound = document.getElementById('clickSound');
 
-let currentIndex = -1;
-let clickedIndices = [];
-let sound;
+let holes = [];
+let activatedIndexes = [];
+let currentActiveIndex = null;
 
-// 効果音を事前に読み込む
-function loadSound() {
-  sound = new Audio("Onoma-Pop04-4(High-Wet).mp3");
-  sound.volume = 0.6;
+// 9個のボタンを生成
+for (let i = 0; i < 9; i++) {
+  const btn = document.createElement('button');
+  btn.classList.add('hole-button');
+  holeGrid.appendChild(btn);
+  holes.push(btn);
 }
 
-// グリッド（9個の穴ボタン）を作成
-function createGrid() {
-  grid.innerHTML = "";
-  for (let i = 0; i < 9; i++) {
-    const btn = document.createElement("button");
-    btn.classList.add("hole-button");
-    btn.dataset.index = i;
-    btn.addEventListener("click", () => handleClick(i, btn));
-    grid.appendChild(btn);
-  }
-}
-
-// ランダムに次の穴を光らせる（未クリックの中から選ぶ）
-function highlightRandomHole() {
-  const buttons = grid.querySelectorAll("button");
-
-  if (clickedIndices.length === 9) {
-    setTimeout(() => {
-      alert("🎉 クリア！おめでとうございます！");
-    }, 200);
+function activateRandomHole() {
+  if (activatedIndexes.length >= 9) {
+    alert('クリア！お疲れさまでした✨');
     return;
   }
 
-  let newIndex;
+  let randomIndex;
   do {
-    newIndex = Math.floor(Math.random() * 9);
-  } while (clickedIndices.includes(newIndex));
+    randomIndex = Math.floor(Math.random() * 9);
+  } while (activatedIndexes.includes(randomIndex));
 
-  currentIndex = newIndex;
+  // 既存の active をリセット
+  holes.forEach(hole => hole.classList.remove('active'));
 
-  // 光らせる演出
-  buttons.forEach(btn => btn.classList.remove("active"));
-  buttons[newIndex].classList.add("active");
+  currentActiveIndex = randomIndex;
+  holes[randomIndex].classList.add('active');
 }
 
-// ボタンが押された時の処理
-function handleClick(index, btn) {
-  if (index === currentIndex) {
-    clickedIndices.push(index);
-    btn.classList.remove("active");
-
-    // ぷにっと演出と音再生
-    btn.style.transform = "scale(0.95)";
-    if (sound) {
-      sound.currentTime = 0;
-      sound.play();
+holes.forEach((hole, index) => {
+  hole.addEventListener('click', () => {
+    if (index === currentActiveIndex) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+      activatedIndexes.push(index);
+      hole.classList.remove('active');
+      activateRandomHole();
     }
-    setTimeout(() => {
-      btn.style.transform = "scale(1)";
-    }, 100);
-
-    highlightRandomHole();
-  }
-}
-
-// ゲーム開始時の初期化処理
-function startGame() {
-  clickedIndices = [];
-  createGrid();
-  highlightRandomHole();
-}
-
-// ページロード時の処理
-window.addEventListener("DOMContentLoaded", () => {
-  loadSound();
-  createGrid();
+  });
 });
 
-// PLAYボタンにイベント設定
-startBtn.addEventListener("click", startGame);
+startButton.addEventListener('click', () => {
+  // 初期化
+  activatedIndexes = [];
+  currentActiveIndex = null;
+  holes.forEach(hole => hole.classList.remove('active'));
+  activateRandomHole();
+});
