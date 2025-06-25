@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,15 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">9 Holes</h1>
-    <div class="hole-grid" id="holeGrid">
-      <!-- JSが動的に9つのボタンを生成 -->
+  <div class="game-container">
+    <div class="hole-grid">
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
+      <button class="hole-button"></button>
     </div>
-    <button id="startButton">PLAY</button>
+    <button id="resetButton" class="reset-button">もう一回！</button>
   </div>
-
-  <audio id="clickSound" src="Onoma-Pop04-4(High-Wet).mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
