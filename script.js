@@ -12,7 +12,7 @@ const MAX_STAGE = 9;
 
 function getRandomHoles(count) {
   const availableIndices = Array.from({ length: holeButtons.length }, (_, i) => i)
-    .filter(i => !clickedHoles.has(i) && !lastLitHoles.has(i));
+    .filter(i => !lastLitHoles.has(i));
 
   const selected = new Set();
   while (selected.size < count && availableIndices.length > 0) {
@@ -50,21 +50,22 @@ function handleClick(e) {
 
     e.currentTarget.classList.remove('active');
     currentLitHoles.delete(index);
-    clickedHoles.add(index);
+  }
 
-    if (clickedHoles.size === 9) {
+  // 全ての光っていたボタンを押し終えたときだけ次に進む
+  if (currentLitHoles.size === 0) {
+    if (gameStage < MAX_STAGE) {
+      gameStage++;
+      lightUpHoles(gameStage);
+    } else {
       showClearMessage();
-    } else if (currentLitHoles.size === 0) {
-      gameStage = Math.min(gameStage + 1, MAX_STAGE);
-      const nextCount = Math.min(gameStage, 9 - clickedHoles.size); // 残り穴数以上は選ばない
-      lightUpHoles(nextCount);
     }
   }
 }
 
 function showClearMessage() {
   clearLights();
-  alert("🌟 全ての光るボタンを見つけました！お疲れさまでした！");
+  alert("🌟 すべての段階クリア！お疲れさまでした！");
   resetButton.style.display = 'block';
 }
 
@@ -74,7 +75,7 @@ function resetGame() {
   lastLitHoles.clear();
   gameStage = 1;
   resetButton.style.display = 'none';
-  lightUpHoles(1);
+  lightUpHoles(gameStage);
 }
 
 holeButtons.forEach(btn => btn.addEventListener('click', handleClick));
@@ -83,6 +84,6 @@ resetButton.addEventListener('click', resetGame);
 window.onload = () => {
   if (!gameStarted) {
     gameStarted = true;
-    lightUpHoles(1); // 最初は1個から開始
+    lightUpHoles(gameStage); // 最初は1つ
   }
 };
