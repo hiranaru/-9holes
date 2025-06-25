@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>9 Holes</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="game-container">
+    <div id="clearMessage" class="clear-message">🌟 ゲームクリア！お疲れさまでした！ 🌟</div>
     <div class="hole-grid">
       <button class="hole-button"></button>
       <button class="hole-button"></button>
@@ -19,9 +20,10 @@
       <button class="hole-button"></button>
       <button class="hole-button"></button>
     </div>
-    <button id="resetButton" class="reset-button">もう一回！</button>
+    <button id="resetButton" class="reset-button">リセット</button>
   </div>
 
+  <audio id="clickSound" src="Onoma-Pop04-4(High-Wet).mp3" preload="auto"></audio>
   <script src="script.js"></script>
 </body>
 </html>
