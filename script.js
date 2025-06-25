@@ -1,89 +1,68 @@
-const holeButtons = document.querySelectorAll('.hole-button');
-const resetButton = document.getElementById('resetButton');
-const popSound = new Audio('Onoma-Pop04-4(High-Wet).mp3');
+document.addEventListener("DOMContentLoaded", () => {
+  const holes = document.querySelectorAll(".hole-button");
+  const resetButton = document.getElementById("resetButton");
+  const clearMessage = document.getElementById("clearMessage");
 
-let clickedHoles = new Set();
-let currentLitHoles = new Set();
-let lastLitHoles = new Set();
+  // 押すと影響するボタンを定義（indexで指定）
+  const toggleMap = {
+    0: [0, 1],
+    1: [1, 2],
+    2: [2, 3],
+    3: [3, 4, 5],
+    4: [4, 6],
+    5: [5, 7],
+    6: [6, 8],
+    7: [7],
+    8: [8, 0]
+  };
 
-let gameStage = 1;
-let gameStarted = false;
-const MAX_STAGE = 9;
+  // 音声
+  const clickSound = new Audio("Onoma-Pop04-4(High-Wet).mp3");
 
-function getRandomHoles(count) {
-  const availableIndices = Array.from({ length: holeButtons.length }, (_, i) => i)
-    .filter(i => !lastLitHoles.has(i));
+  let activeStates = new Array(9).fill(false); // 各ボタンの点灯状態
 
-  const selected = new Set();
-  while (selected.size < count && availableIndices.length > 0) {
-    const randomIndex = Math.floor(Math.random() * availableIndices.length);
-    selected.add(availableIndices.splice(randomIndex, 1)[0]);
-  }
+  // ボタン状態の更新
+  function updateButtons() {
+    holes.forEach((hole, index) => {
+      if (activeStates[index]) {
+        hole.classList.add("active");
+      } else {
+        hole.classList.remove("active");
+      }
+    });
 
-  return Array.from(selected);
-}
-
-function lightUpHoles(count) {
-  clearLights();
-
-  const holesToLight = getRandomHoles(count);
-  currentLitHoles = new Set(holesToLight);
-
-  holesToLight.forEach(index => {
-    holeButtons[index].classList.add('active');
-  });
-
-  lastLitHoles = new Set(holesToLight);
-}
-
-function clearLights() {
-  holeButtons.forEach(btn => btn.classList.remove('active'));
-  currentLitHoles.clear();
-}
-
-function handleClick(e) {
-  const index = Array.from(holeButtons).indexOf(e.currentTarget);
-
-  if (currentLitHoles.has(index)) {
-    popSound.currentTime = 0;
-    popSound.play();
-
-    e.currentTarget.classList.remove('active');
-    currentLitHoles.delete(index);
-  }
-
-  // 全ての光っていたボタンを押し終えたときだけ次に進む
-  if (currentLitHoles.size === 0) {
-    if (gameStage < MAX_STAGE) {
-      gameStage++;
-      lightUpHoles(gameStage);
-    } else {
-      showClearMessage();
+    // すべてのボタンが点灯していたらクリア
+    if (activeStates.every(state => state)) {
+      clearMessage.style.display = "block";
+      resetButton.style.display = "block";
     }
   }
-}
 
-function showClearMessage() {
-  clearLights();
-  alert("🌟 すべての段階クリア！お疲れさまでした！");
-  resetButton.style.display = 'block';
-}
+  // ボタンが押されたときの処理
+  holes.forEach((hole, index) => {
+    hole.addEventListener("click", () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
 
-function resetGame() {
-  clickedHoles.clear();
-  currentLitHoles.clear();
-  lastLitHoles.clear();
-  gameStage = 1;
-  resetButton.style.display = 'none';
-  lightUpHoles(gameStage);
-}
+      const affected = toggleMap[index];
+      affected.forEach(i => {
+        activeStates[i] = !activeStates[i]; // 状態を反転
+      });
 
-holeButtons.forEach(btn => btn.addEventListener('click', handleClick));
-resetButton.addEventListener('click', resetGame);
+      updateButtons();
+    });
+  });
 
-window.onload = () => {
-  if (!gameStarted) {
-    gameStarted = true;
-    lightUpHoles(gameStage); // 最初は1つ
-  }
-};
+  // リセット
+  resetButton.addEventListener("click", () => {
+    activeStates = new Array(9).fill(false);
+    clearMessage.style.display = "none";
+    resetButton.style.display = "none";
+    activeStates[0] = true; // 最初に1個点灯
+    updateButtons();
+  });
+
+  // 初期状態：1つだけ点灯
+  activeStates[0] = true;
+  updateButtons();
+});
