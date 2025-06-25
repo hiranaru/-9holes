@@ -6,14 +6,16 @@ body {
   font-family: sans-serif;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 }
 
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 .hole-grid {
@@ -28,42 +30,48 @@ body {
   height: 90px;
   border-radius: 50%;
   border: none;
-  background: radial-gradient(ellipse at top left, #ffffff, #e0e0e0);
-  box-shadow:
-    inset -4px -4px 10px rgba(255,255,255,0.8),
-    inset 4px 4px 10px rgba(0,0,0,0.1),
-    0 4px 6px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
+  background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+  box-shadow: inset -3px -3px 8px #ffffffcc,
+              inset 3px 3px 6px rgba(0, 0, 0, 0.2),
+              0 6px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .hole-button.active {
-  background: radial-gradient(ellipse at top left, #ffe066, #ffc107);
-  box-shadow:
-    inset -2px -2px 6px rgba(255,255,255,0.6),
-    inset 2px 2px 6px rgba(0,0,0,0.2),
-    0 4px 12px rgba(255, 193, 7, 0.6);
+  background: radial-gradient(circle at 30% 30%, #fff1b6, #ffd966);
   transform: scale(1.1);
 }
 
 .reset-button {
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 12px 28px;
   font-size: 18px;
   background-color: #ffd6d6;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   display: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.clear-message {
-  background-color: #fff8e1;
-  padding: 12px 24px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 223, 94, 0.6);
-  font-size: 20px;
-  color: #8b6b00;
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.mode-toggle button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffffffbb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.mode-toggle button.active-mode {
+  background-color: #ffd966;
   font-weight: bold;
-  display: none;
 }
