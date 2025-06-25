@@ -113,7 +113,7 @@ function showVictory() {
   document.body.appendChild(winMsg);
   setTimeout(() => {
     winMsg.remove();
-  }, 3000);
+  }, 1000);
   resetBtn.style.display = "block";
 }
 
