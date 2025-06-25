@@ -30,16 +30,27 @@ body {
   height: 90px;
   border-radius: 50%;
   border: none;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #cccccc);
-  box-shadow: inset -3px -3px 8px #ffffffcc,
-              inset 3px 3px 6px rgba(0, 0, 0, 0.2),
-              0 6px 10px rgba(0,0,0,0.2);
-  transition: background-color 0.3s, transform 0.2s;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #ffefef);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 -4px 6px rgba(255, 255, 255, 0.5),
+    inset 0 4px 6px rgba(255, 192, 203, 0.4);
+  transition: transform 0.2s, background-color 0.3s;
+  cursor: pointer;
 }
 
 .hole-button.active {
-  background: radial-gradient(circle at 30% 30%, #fff4c1, #ffd966);
+  background: radial-gradient(circle at 30% 30%, #fffbe0, #ffe066);
   transform: scale(1.1);
+  box-shadow:
+    0 0 20px rgba(255, 240, 100, 0.8),
+    inset 0 -4px 6px rgba(255, 255, 200, 0.5),
+    inset 0 4px 6px rgba(255, 240, 150, 0.4);
+}
+
+.hole-button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
 }
 
 .reset-button {
