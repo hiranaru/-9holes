@@ -2,20 +2,20 @@ body {
   margin: 0;
   padding: 0;
   background: url('background_final.jpg') no-repeat center center fixed;
-  background-size: cover;
-  font-family: sans-serif;
+  background-size: contain;
+  font-family: 'Segoe UI', sans-serif;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
 }
 
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
 }
 
 .hole-grid {
@@ -30,7 +30,7 @@ body {
   height: 90px;
   border-radius: 50%;
   border: none;
-  background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+  background: radial-gradient(circle at 30% 30%, #ffffff, #cccccc);
   box-shadow: inset -3px -3px 8px #ffffffcc,
               inset 3px 3px 6px rgba(0, 0, 0, 0.2),
               0 6px 10px rgba(0,0,0,0.2);
@@ -38,7 +38,7 @@ body {
 }
 
 .hole-button.active {
-  background: radial-gradient(circle at 30% 30%, #fff1b6, #ffd966);
+  background: radial-gradient(circle at 30% 30%, #fff4c1, #ffd966);
   transform: scale(1.1);
 }
 
@@ -57,21 +57,27 @@ body {
 .mode-toggle {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 25px 0 10px 0;
+  gap: 10px;
 }
 
 .mode-toggle button {
-  margin: 0 5px;
-  padding: 10px 20px;
+  padding: 10px 18px;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 20px;
   border: none;
   cursor: pointer;
-  background-color: #ffffffbb;
+  background-color: #ffffffcc;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mode-toggle button.active-mode {
-  background-color: #ffd966;
-  font-weight: bold;
+  background-color: #ffe066;
+  color: #333;
+  transform: scale(1.05);
 }
