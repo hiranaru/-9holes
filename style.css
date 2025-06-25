@@ -1,80 +1,69 @@
-body {
+body, html {
   margin: 0;
   padding: 0;
-  background: url('background.jpg') no-repeat center center fixed;
-  background-size: cover;
-  font-family: 'Helvetica Neue', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+}
+
+.background {
+  position: relative;
+  width: 100%;
   height: 100vh;
-  animation: gentleScroll 60s linear infinite;
+  background: url('background_final.jpg') no-repeat center center;
+  background-size: cover;
 }
 
-@keyframes gentleScroll {
-  0% { background-position: center center; }
-  50% { background-position: center 48%; }
-  100% { background-position: center center; }
-}
-
-h1 {
-  font-size: 2em;
-  color: white;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px rgba(255,255,255,0.8);
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 80px);
-  grid-gap: 20px;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-.hole {
-  width: 80px;
+/* 雲のアニメーション */
+.cloud {
+  position: absolute;
+  width: 150px;
   height: 80px;
+  background: rgba(255,255,255,0.6);
   border-radius: 50%;
-  border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  animation: floatCloud 60s linear infinite;
 }
 
-.hole.active {
-  background-color: rgba(255, 255, 150, 0.8);
-  transform: scale(1.1);
+.cloud1 {
+  top: 10%;
+  left: -20%;
+  animation-delay: 0s;
 }
 
-.hole:active {
-  transform: scale(0.95);
+.cloud2 {
+  top: 25%;
+  left: -30%;
+  animation-delay: 30s;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 12px;
-  background-color: #ffffffcc;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease;
+@keyframes floatCloud {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(140vw); }
 }
 
-button:hover {
-  transform: scale(1.05);
+/* 草のゆれ */
+.grass {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: transparent;
+  border-left: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  animation: sway 3s ease-in-out infinite alternate;
 }
 
-/* フェードイン */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 2s ease-out forwards;
+.grass1 {
+  bottom: 10%;
+  left: 20%;
+  animation-delay: 0s;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
+.grass2 {
+  bottom: 12%;
+  left: 60%;
+  animation-delay: 1s;
+}
+
+@keyframes sway {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(3deg); }
 }
