@@ -7,20 +7,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-container">
+  <div class="game-wrapper">
+    <div class="logo">9holes</div>
+
+    <div id="modeDescription" class="mode-description">
+      モードの説明がここに表示されます。
+    </div>
+
     <div class="hole-grid" id="holeGrid"></div>
     <button class="reset-button" id="resetBtn">リセット</button>
+
+    <div class="mode-toggle">
+      <button id="switchToRandom">ランダムモード</button>
+      <button id="switchToPuzzle">パズルモード</button>
+    </div>
   </div>
-
-<div class="mode-toggle">
-  <button id="switchToRandom">
-   ランダムモード
-  </button>
-  <button id="switchToPuzzle">
-   パズルモード
-  </button>
-</div>
-
 
   <audio id="popSound" src="Onoma-Pop04-4(High-Wet).mp3" preload="auto"></audio>
   <script src="script.js"></script>
