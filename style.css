@@ -1,45 +1,79 @@
-.game-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10; /* 背景より前に */
-  text-align: center;
-  color: white;
-  font-family: sans-serif;
-}
-
-#holes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 80px);
-  grid-gap: 15px;
+/* ベース設定 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  background-image: url('A_vertical_background_illustration.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+  overflow: hidden;
 }
 
-#holes-grid button {
-  width: 80px;
-  height: 80px;
+h1 {
+  font-size: 2.2rem;
+  color: #ffffffcc;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ゲームコンテナ */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+/* グリッド */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  grid-gap: 16px;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ホールボタン */
+.hole-button {
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-  transition: transform 0.1s ease;
+  border: 2px solid #fff;
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
 }
 
-#holes-grid button.active {
-  background-color: rgba(255, 255, 180, 0.8);
-  transform: scale(1.1);
-}
-
-#startBtn {
-  margin-top: 30px;
-  padding: 10px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  box-shadow: 0 0 5px white;
+.hole-button:hover {
   cursor: pointer;
+  transform: scale(1.05);
+}
+
+.hole-button.active {
+  background-color: rgba(255, 255, 200, 0.8);
+  box-shadow: 0 0 10px rgba(255, 255, 160, 0.9);
+}
+
+/* PLAYボタン */
+.start-button {
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fceabb, #f8b500);
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.start-button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
 }
