@@ -8,6 +8,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation; /* タップ操作に最適化（ズーム防止） */
 }
 
 body::before {
@@ -89,6 +94,17 @@ body::before {
 .hole-button:hover {
   transform: scale(1.05);
   filter: brightness(1.05);
+}
+
+/* style.css に追加 */
+.hole-button {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none; /* 長押しメニュー防止（iOS） */
+  -webkit-tap-highlight-color: transparent; /* 青ハイライト除去 */
 }
 
 .reset-button {
