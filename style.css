@@ -9,8 +9,6 @@ body {
   justify-content: center;
   align-items: center;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   touch-action: manipulation;
 }
@@ -37,24 +35,31 @@ body::before {
   width: 100%;
   max-width: 430px;
   height: 100dvh;
-  padding: 20px 0;
   box-sizing: border-box;
+  padding: 20px 0 90px;
   overflow: hidden;
 }
 
-.logo {
-  font-size: 32px;
-  font-weight: bold;
-  color: #ffffff;
-  text-shadow: 1px 1px 2px #888;
-  margin-bottom: 8px;
+.upper-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
-.level-display {
-  font-size: 16px;
-  color: #ffffff;
+.logo-image {
+  width: 150px;
+  height: auto;
   margin-bottom: 4px;
-  text-shadow: 1px 1px 2px #888;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.stage-label {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
 }
 
 .mode-description {
@@ -62,16 +67,22 @@ body::before {
   text-align: center;
   color: #333;
   padding: 0 20px;
-  margin-bottom: 10px;
   line-height: 1.4;
   max-width: 360px;
+}
+
+.center-grid {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hole-grid {
   display: grid;
   grid-template-columns: repeat(3, 90px);
   grid-gap: 20px;
-  padding: 20px;
+  padding: 0;
 }
 
 .hole-button {
@@ -86,12 +97,9 @@ body::before {
     inset 0 6px 8px rgba(255, 192, 203, 0.4);
   transition: transform 0.2s, background-color 0.3s;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .hole-button.active {
@@ -109,7 +117,7 @@ body::before {
 }
 
 .reset-button {
-  margin-top: 10px;
+  margin: 10px 0 0;
   padding: 12px 28px;
   font-size: 18px;
   background-color: #ffd6d6;
@@ -146,43 +154,4 @@ body::before {
   background-color: #ffe066;
   color: #333;
   transform: scale(1.05);
-}
-
-/* ステージラベル */
-.stage-label {
-  font-size: 32px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-  margin-bottom: 10px;
-}
-
-/* 配置見直し */
-.game-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;  /* space-between → space-around */
-  align-items: center;
-  width: 100%;
-  max-width: 430px;
-  height: 100dvh;
-  padding: 20px 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.hole-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 90px);
-  grid-gap: 20px;
-  padding: 0;
-  margin: 10px 0;
-}
-
-.logo-image {
-  width: 150px;
-  height: auto;
-  margin-bottom: 10px;
-  user-select: none;
-  -webkit-user-drag: none;
 }
