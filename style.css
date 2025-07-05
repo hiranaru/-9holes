@@ -147,3 +147,34 @@ body::before {
   color: #333;
   transform: scale(1.05);
 }
+
+/* ステージラベル */
+.stage-label {
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  margin-bottom: 10px;
+}
+
+/* 配置見直し */
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;  /* space-between → space-around */
+  align-items: center;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  padding: 20px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.hole-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 90px);
+  grid-gap: 20px;
+  padding: 0;
+  margin: 10px 0;
+}
