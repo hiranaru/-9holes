@@ -4,6 +4,7 @@ const popSound = document.getElementById("popSound");
 const switchToRandom = document.getElementById("switchToRandom");
 const switchToPuzzle = document.getElementById("switchToPuzzle");
 const modeDescription = document.getElementById("modeDescription");
+const levelDisplay = document.getElementById("levelDisplay");
 
 let mode = "random";
 let buttons = [];
@@ -49,7 +50,7 @@ function lightRandomButtons() {
     .filter(i => !pressedButtons.has(i) && !previousLit.includes(i));
 
   if (candidates.length === 0) {
-    stage++; // ステージだけ進めて繰り返す
+    stage++;
     pressedButtons.clear();
     previousLit = [];
     lightRandomButtons();
@@ -67,11 +68,19 @@ function lightRandomButtons() {
   previousLit = [...newLit];
   litButtons = new Set(newLit);
   updateLighting();
+  updateStageDisplay();
 }
 
 function updateLighting() {
   buttons.forEach((btn, i) => {
-    btn.classList.toggle("active", litButtons.has(i));
+    btn.classList.remove("active", "glow-strong");
+
+    if (litButtons.has(i)) {
+      btn.classList.add("active");
+      if (stage >= 10) {
+        btn.classList.add("glow-strong");
+      }
+    }
   });
 }
 
@@ -82,13 +91,13 @@ function handlePress(index) {
     if (litButtons.has(index)) {
       pressedButtons.add(index);
       litButtons.delete(index);
-      buttons[index].classList.remove("active");
+      buttons[index].classList.remove("active", "glow-strong");
 
       if ([...previousLit].every(i => pressedButtons.has(i))) {
         stage++;
         pressedButtons.clear();
         litButtons.clear();
-        lightRandomButtons(); // 続行
+        lightRandomButtons();
       }
     }
   } else if (mode === "puzzle") {
@@ -132,6 +141,7 @@ function resetGame() {
   previousLit = [];
   updateLighting();
   resetBtn.style.display = mode === "puzzle" ? "block" : "none";
+  updateStageDisplay();
   if (mode === "random") {
     lightRandomButtons();
   }
@@ -144,6 +154,16 @@ function updateModeButtons() {
   modeDescription.innerText = mode === "random"
     ? "光るボタンを押していこう！押すと次に新しいボタンがランダムに光るよ。"
     : "押すと周りのボタンが光るよ。全部光らせてね。";
+
+  levelDisplay.style.display = mode === "random" ? "block" : "none";
+}
+
+function updateStageDisplay() {
+  if (mode === "random") {
+    levelDisplay.textContent = `ステージ：${stage}`;
+  } else {
+    levelDisplay.textContent = "";
+  }
 }
 
 switchToRandom.addEventListener("click", () => {
