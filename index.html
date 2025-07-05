@@ -8,18 +8,21 @@
 </head>
 <body>
   <div class="game-wrapper">
-<!-- 旧ロゴテキスト -->
-<!-- <div class="logo">9holes</div> -->
 
-<!-- 新しいロゴ画像 -->
-<img src="logo.png" alt="9holes logo" class="logo-image" />
+    <!-- 上部 UI グループ -->
+    <div class="upper-ui">
+      <img src="logo.png" alt="9holes logo" class="logo-image" />
+      <div class="stage-label" id="stageLabel"></div>
+      <div id="modeDescription" class="mode-description">モードの説明がここに表示されます。</div>
+    </div>
 
-<div class="stage-label" id="stageLabel"></div> <!-- ←ここを追加 -->
-    <div id="modeDescription" class="mode-description">モードの説明がここに表示されます。</div>
+    <!-- 中央のボタン -->
+    <div class="center-grid">
+      <div class="hole-grid" id="holeGrid"></div>
+    </div>
 
-    <div class="hole-grid" id="holeGrid"></div>
+    <!-- 下部のモード切替ボタン -->
     <button class="reset-button" id="resetBtn">リセット</button>
-
     <div class="mode-toggle">
       <button id="switchToRandom">ランダムモード</button>
       <button id="switchToPuzzle">パズルモード</button>
