@@ -178,3 +178,47 @@ body::before {
   padding: 0;
   margin: 10px 0;
 }
+
+
+.victory-flash {
+  animation: flash-bg 0.4s ease-in-out;
+}
+
+@keyframes flash-bg {
+  0%   { background-color: #fffacc; }
+  100% { background-color: transparent; }
+}
+
+.victory-message {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffffee;
+  padding: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  z-index: 10;
+  animation: fadein 0.3s ease;
+}
+
+.next-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #ffe066;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.next-button:hover {
+  background-color: #ffdf5c;
+  transform: scale(1.05);
+}
+
