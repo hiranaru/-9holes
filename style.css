@@ -3,14 +3,15 @@ body {
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
   height: 100dvh;
-  overflow: hidden;
   background: linear-gradient(to right, #fcece6, #fff8f4, #fcece6);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
 }
 
 body::before {
@@ -30,27 +31,20 @@ body::before {
 .game-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 430px;
   height: 100dvh;
   box-sizing: border-box;
-  padding: 20px 0 90px;
   overflow: hidden;
-}
-
-.upper-ui {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  padding-bottom: 80px; /* ボタン用の下部スペース確保 */
 }
 
 .logo-image {
   width: 150px;
   height: auto;
-  margin-bottom: 4px;
+  margin-top: 0;
+  padding-top: 8px;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -60,6 +54,7 @@ body::before {
   font-weight: bold;
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  margin-top: 4px;
 }
 
 .mode-description {
@@ -67,9 +62,8 @@ body::before {
   font-size: 14px;
   text-align: center;
   color: #333;
-  padding: 0 20px;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  margin: 12px 20px 0;
+  line-height: 1.5;
   max-width: 360px;
 }
 
@@ -78,13 +72,13 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 0;
 }
 
 .hole-grid {
   display: grid;
   grid-template-columns: repeat(3, 90px);
   grid-gap: 20px;
-  padding: 0;
 }
 
 .hole-button {
@@ -100,7 +94,6 @@ body::before {
   transition: transform 0.2s, background-color 0.3s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -119,7 +112,7 @@ body::before {
 }
 
 .reset-button {
-  margin: 10px 0 0;
+  margin-top: 10px;
   padding: 12px 28px;
   font-size: 18px;
   background-color: #ffd6d6;
@@ -130,32 +123,37 @@ body::before {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* ▼ ぷっくり立体的で可愛いモード切替ボタン ▼ */
 .mode-toggle {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 14px;
+  z-index: 10;
+  padding: 0 10px;
+  width: 100%;
+  max-width: 430px;
+  box-sizing: border-box;
 }
 
 .mode-toggle button {
-  padding: 12px 24px;
+  flex: 1;
+  padding: 12px 0;
   font-size: 16px;
   font-family: 'Kiwi Maru', 'Segoe UI', sans-serif;
   border-radius: 30px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(to bottom, #d9e8d0, #a8cfa5); /* グリーンを柔らかく */
+  background: linear-gradient(to bottom, #b8d7b0, #90b38a);
   box-shadow:
-    inset 0 -3px 0 #7fa87c,
+    inset 0 -3px 0 #7b9e71,
     0 4px 6px rgba(0, 0, 0, 0.15);
   color: #fff;
   font-weight: bold;
   text-shadow: 0 0 2px #59785a, 0 1px 1px #59785a;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .mode-toggle button.active-mode {
@@ -170,5 +168,4 @@ body::before {
 
 .mode-toggle button:hover {
   filter: brightness(1.05);
-  transform: scale(1.05);
 }
