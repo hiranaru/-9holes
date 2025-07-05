@@ -118,37 +118,40 @@ function loadPuzzleStage() {
   updateStageLabel();
 }
 
-function showVictory() {
-  const winMsg = document.createElement("div");
-  winMsg.textContent = "🎉 クリア！ 🎉";
-  winMsg.style.position = "fixed";
-  winMsg.style.top = "40%";
-  winMsg.style.left = "50%";
-  winMsg.style.transform = "translate(-50%, -50%)";
-  winMsg.style.background = "#ffffffdd";
-  winMsg.style.padding = "30px";
-  winMsg.style.fontSize = "28px";
-  winMsg.style.borderRadius = "20px";
-  winMsg.style.boxShadow = "0 6px 12px rgba(0,0,0,0.2)";
-  document.body.appendChild(winMsg);
-
-  setTimeout(() => {
-    winMsg.remove();
-    puzzleStage++;
-    if (puzzleStage < puzzleStages.length) {
-      loadPuzzleStage();
-    } else {
-      stageLabel.innerText = "🎉 全ステージクリア！";
-    }
-  }, 1000);
-}
-
 function updateStageLabel() {
   if (mode === "puzzle") {
     stageLabel.style.display = "block";
     stageLabel.innerText = `LEVEL ${puzzleStage + 1}`;
   } else {
     stageLabel.style.display = "none";
+  }
+}
+
+function showVictory() {
+  if (mode !== "puzzle") return;
+
+  // 演出（背景フラッシュ）
+  document.body.classList.add("victory-flash");
+
+  const winMsg = document.createElement("div");
+  winMsg.className = "victory-message";
+  winMsg.innerHTML = `
+    <div>🎉 LEVEL CLEAR! 🎉</div>
+    ${puzzleStage + 1 < puzzleStages.length ? '<button id="nextStageBtn" class="next-button">次へ ▶</button>' : '<div>🎉 全ステージクリア！</div>'}
+  `;
+  document.body.appendChild(winMsg);
+
+  setTimeout(() => {
+    document.body.classList.remove("victory-flash");
+  }, 600);
+
+  const nextBtn = document.getElementById("nextStageBtn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      winMsg.remove();
+      puzzleStage++;
+      loadPuzzleStage();
+    });
   }
 }
 
