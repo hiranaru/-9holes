@@ -4,13 +4,26 @@ const popSound = document.getElementById("popSound");
 const switchToRandom = document.getElementById("switchToRandom");
 const switchToPuzzle = document.getElementById("switchToPuzzle");
 const modeDescription = document.getElementById("modeDescription");
+const stageLabel = document.getElementById("stageLabel");
 
 let mode = "random";
 let buttons = [];
 let litButtons = new Set();
 let pressedButtons = new Set();
 let previousLit = [];
-let stage = 1;
+
+let puzzleStage = 0;
+const puzzleStages = [
+  [0],
+  [1, 8],
+  [0, 4, 8],
+  [0, 2, 6, 8],
+  [1, 3, 4, 5, 7],
+  [0, 1, 2, 6, 7],
+  [3, 4, 5],
+  [0, 2, 4, 6, 8],
+  [0, 1, 2, 3, 4, 5, 6, 7, 8]
+];
 
 const toggleMap = {
   0: [0, 1, 3],
@@ -43,13 +56,11 @@ function playSound() {
 }
 
 function lightRandomButtons() {
-  let count = stage <= 3 ? stage : Math.floor(Math.random() * 5) + 1;
-
+  const count = Math.floor(Math.random() * 5) + 1;
   const candidates = Array.from({ length: 9 }, (_, i) => i)
     .filter(i => !pressedButtons.has(i) && !previousLit.includes(i));
 
   if (candidates.length === 0) {
-    stage++; // ステージだけ進めて繰り返す
     pressedButtons.clear();
     previousLit = [];
     lightRandomButtons();
@@ -58,10 +69,8 @@ function lightRandomButtons() {
 
   const newLit = [];
   while (newLit.length < Math.min(count, candidates.length)) {
-    let idx = candidates[Math.floor(Math.random() * candidates.length)];
-    if (!newLit.includes(idx)) {
-      newLit.push(idx);
-    }
+    const idx = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!newLit.includes(idx)) newLit.push(idx);
   }
 
   previousLit = [...newLit];
@@ -85,30 +94,33 @@ function handlePress(index) {
       buttons[index].classList.remove("active");
 
       if ([...previousLit].every(i => pressedButtons.has(i))) {
-        stage++;
         pressedButtons.clear();
         litButtons.clear();
-        lightRandomButtons(); // 続行
+        lightRandomButtons();
       }
     }
   } else if (mode === "puzzle") {
     toggleMap[index].forEach(i => {
-      if (litButtons.has(i)) {
-        litButtons.delete(i);
-      } else {
-        litButtons.add(i);
-      }
+      litButtons.has(i) ? litButtons.delete(i) : litButtons.add(i);
     });
     updateLighting();
+
     if (litButtons.size === 9) {
       showVictory();
     }
   }
 }
 
+function loadPuzzleStage() {
+  const stageData = puzzleStages[puzzleStage];
+  litButtons = new Set(stageData || []);
+  updateLighting();
+  updateStageLabel();
+}
+
 function showVictory() {
   const winMsg = document.createElement("div");
-  winMsg.textContent = "🎉 ゲームクリア！ 🎉";
+  winMsg.textContent = "🎉 クリア！ 🎉";
   winMsg.style.position = "fixed";
   winMsg.style.top = "40%";
   winMsg.style.left = "50%";
@@ -119,21 +131,38 @@ function showVictory() {
   winMsg.style.borderRadius = "20px";
   winMsg.style.boxShadow = "0 6px 12px rgba(0,0,0,0.2)";
   document.body.appendChild(winMsg);
+
   setTimeout(() => {
     winMsg.remove();
+    puzzleStage++;
+    if (puzzleStage < puzzleStages.length) {
+      loadPuzzleStage();
+    } else {
+      stageLabel.innerText = "🎉 全ステージクリア！";
+    }
   }, 1000);
-  resetBtn.style.display = "block";
+}
+
+function updateStageLabel() {
+  if (mode === "puzzle") {
+    stageLabel.style.display = "block";
+    stageLabel.innerText = `LEVEL ${puzzleStage + 1}`;
+  } else {
+    stageLabel.style.display = "none";
+  }
 }
 
 function resetGame() {
   litButtons.clear();
   pressedButtons.clear();
-  stage = 1;
   previousLit = [];
-  updateLighting();
-  resetBtn.style.display = mode === "puzzle" ? "block" : "none";
+
   if (mode === "random") {
+    stageLabel.style.display = "none";
     lightRandomButtons();
+  } else {
+    puzzleStage = 0;
+    loadPuzzleStage();
   }
 }
 
@@ -144,6 +173,8 @@ function updateModeButtons() {
   modeDescription.innerText = mode === "random"
     ? "光るボタンを押していこう！押すと次に新しいボタンがランダムに光るよ。"
     : "押すと周りのボタンが光るよ。全部光らせてね。";
+
+  updateStageLabel();
 }
 
 switchToRandom.addEventListener("click", () => {
