@@ -73,7 +73,6 @@ body::before {
   max-width: 360px;
 }
 
-
 .center-grid {
   flex-grow: 1;
   display: flex;
@@ -131,6 +130,7 @@ body::before {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+/* ▼ ぷっくり立体的で可愛いモード切替ボタン ▼ */
 .mode-toggle {
   display: flex;
   justify-content: center;
@@ -139,14 +139,19 @@ body::before {
 }
 
 .mode-toggle button {
-  padding: 10px 18px;
+  padding: 12px 24px;
   font-size: 16px;
-  border-radius: 20px;
+  font-family: 'Kiwi Maru', 'Segoe UI', sans-serif;
+  border-radius: 30px;
   border: none;
   cursor: pointer;
-  background-color: #ffffffcc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: linear-gradient(to bottom, #fff5cc, #ffcc66);
+  box-shadow:
+    inset 0 -3px 0 #e6b800,
+    0 4px 6px rgba(0, 0, 0, 0.2);
+  color: #fff;
   font-weight: bold;
+  text-shadow: 0 0 2px #f39800, 0 1px 1px #d18b00;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -154,7 +159,16 @@ body::before {
 }
 
 .mode-toggle button.active-mode {
-  background-color: #ffe066;
-  color: #333;
+  background: linear-gradient(to bottom, #ffdd55, #ffbb00);
+  box-shadow:
+    inset 0 -3px 0 #e6a400,
+    0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+  color: #fff;
+  text-shadow: 0 0 2px #f39800, 0 1px 1px #d18b00;
+}
+
+.mode-toggle button:hover {
+  filter: brightness(1.05);
   transform: scale(1.05);
 }
