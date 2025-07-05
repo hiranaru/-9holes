@@ -4,7 +4,7 @@ const popSound = document.getElementById("popSound");
 const switchToRandom = document.getElementById("switchToRandom");
 const switchToPuzzle = document.getElementById("switchToPuzzle");
 const modeDescription = document.getElementById("modeDescription");
-const levelDisplay = document.getElementById("levelDisplay");
+const stageLabel = document.getElementById("stageLabel");
 
 let mode = "random";
 let buttons = [];
@@ -115,8 +115,7 @@ function loadPuzzleStage() {
   const stageData = puzzleStages[puzzleStage];
   litButtons = new Set(stageData || []);
   updateLighting();
-  levelDisplay.style.display = "block";
-  levelDisplay.innerText = `LEVEL ${puzzleStage + 1}`;
+  updateStageLabel();
 }
 
 function showVictory() {
@@ -139,17 +138,27 @@ function showVictory() {
     if (puzzleStage < puzzleStages.length) {
       loadPuzzleStage();
     } else {
-      levelDisplay.innerText = "🎉 全ステージクリア！";
+      stageLabel.innerText = "🎉 全ステージクリア！";
     }
   }, 1000);
+}
+
+function updateStageLabel() {
+  if (mode === "puzzle") {
+    stageLabel.style.display = "block";
+    stageLabel.innerText = `LEVEL ${puzzleStage + 1}`;
+  } else {
+    stageLabel.style.display = "none";
+  }
 }
 
 function resetGame() {
   litButtons.clear();
   pressedButtons.clear();
   previousLit = [];
+
   if (mode === "random") {
-    levelDisplay.style.display = "none";
+    stageLabel.style.display = "none";
     lightRandomButtons();
   } else {
     puzzleStage = 0;
@@ -164,6 +173,8 @@ function updateModeButtons() {
   modeDescription.innerText = mode === "random"
     ? "光るボタンを押していこう！押すと次に新しいボタンがランダムに光るよ。"
     : "押すと周りのボタンが光るよ。全部光らせてね。";
+
+  updateStageLabel();
 }
 
 switchToRandom.addEventListener("click", () => {
