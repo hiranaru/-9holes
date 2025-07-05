@@ -159,3 +159,19 @@ body::before {
   color: #333;
   transform: scale(1.05);
 }
+
+.level-display {
+  font-size: 16px;
+  color: #ffffff;
+  margin: 8px 0 0;
+  text-shadow: 1px 1px 2px #888;
+}
+
+
+.glow-strong {
+  box-shadow:
+    0 0 32px rgba(255, 240, 100, 0.9),
+    0 0 60px rgba(255, 240, 100, 0.6),
+    inset 0 -4px 8px rgba(255, 255, 200, 0.5),
+    inset 0 4px 8px rgba(255, 240, 150, 0.4);
+}
