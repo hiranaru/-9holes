@@ -145,13 +145,13 @@ body::before {
   border-radius: 30px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(to bottom, #ccf2d1, #99e6b3);
+  background: linear-gradient(to bottom, #d9e8d0, #a8cfa5); /* グリーンを柔らかく */
   box-shadow:
-    inset 0 -3px 0 #66cc99,
-    0 4px 6px rgba(0, 0, 0, 0.2);
+    inset 0 -3px 0 #7fa87c,
+    0 4px 6px rgba(0, 0, 0, 0.15);
   color: #fff;
   font-weight: bold;
-  text-shadow: 0 0 2px #3b855c, 0 1px 1px #3b855c;
+  text-shadow: 0 0 2px #59785a, 0 1px 1px #59785a;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -162,7 +162,7 @@ body::before {
   background: linear-gradient(to bottom, #ffdd55, #ffbb00);
   box-shadow:
     inset 0 -3px 0 #e6a400,
-    0 6px 12px rgba(0, 0, 0, 0.3);
+    0 6px 12px rgba(0, 0, 0, 0.25);
   transform: scale(1.05);
   color: #fff;
   text-shadow: 0 0 2px #f39800, 0 1px 1px #d18b00;
