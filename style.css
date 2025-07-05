@@ -63,13 +63,16 @@ body::before {
 }
 
 .mode-description {
+  font-family: 'Kiwi Maru', 'Segoe UI', sans-serif;
   font-size: 14px;
   text-align: center;
   color: #333;
   padding: 0 20px;
+  margin-bottom: 10px;
   line-height: 1.4;
   max-width: 360px;
 }
+
 
 .center-grid {
   flex-grow: 1;
