@@ -85,10 +85,9 @@ function updateLighting() {
 }
 
 function handlePress(index) {
-  playSound();
-
   if (mode === "random") {
     if (litButtons.has(index)) {
+      playSound();  // ✅ 光ってるときだけ音を鳴らす
       pressedButtons.add(index);
       litButtons.delete(index);
       buttons[index].classList.remove("active");
@@ -99,7 +98,9 @@ function handlePress(index) {
         lightRandomButtons();
       }
     }
+    // 光ってないボタンは無反応
   } else if (mode === "puzzle") {
+    playSound();  // パズルモードは毎回音を鳴らす
     toggleMap[index].forEach(i => {
       litButtons.has(i) ? litButtons.delete(i) : litButtons.add(i);
     });
