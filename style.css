@@ -4,6 +4,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   height: 100dvh;
   overflow: hidden;
+  background: linear-gradient(to right, #fcece6, #fff8f4, #fcece6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,14 +15,7 @@ body {
   touch-action: manipulation;
 }
 
-body.random-mode {
-  background: linear-gradient(to right, #fcece6, #fff8f4, #fcece6);
-}
-
-body.puzzle-mode {
-  background: linear-gradient(to right, #d0f4de, #e6fbe6, #d0f4de);
-}
-
+/* === 共通の背景レイヤー === */
 body::before {
   content: "";
   position: fixed;
@@ -30,10 +24,21 @@ body::before {
   transform: translateX(-50%);
   width: 100%;
   height: 100%;
-  background: url('background_final.jpg') no-repeat center center;
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(240, 240, 240, 0.2)),
+    url('background_final.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: contain;
   z-index: -1;
   opacity: 1;
+}
+
+/* === パズルモード限定の背景エフェクト（緑系グラデーション） === */
+body.puzzle-mode::before {
+  background-image:
+    linear-gradient(to bottom, rgba(200, 255, 200, 0.3), rgba(120, 200, 120, 0.4)),
+    url('background_final.jpg');
 }
 
 .game-wrapper {
@@ -68,11 +73,12 @@ body::before {
 }
 
 #stageLabel {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
-  margin: 10px;
-  color: #008800;
-  text-shadow: 1px 1px 2px #ccc;
+  color: #336633;
+  margin-bottom: 10px;
+  display: none;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
 }
 
 .hole-grid {
@@ -94,8 +100,12 @@ body::before {
     inset 0 6px 8px rgba(255, 192, 203, 0.4);
   transition: transform 0.2s, background-color 0.3s;
   cursor: pointer;
+
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -151,5 +161,22 @@ body::before {
 .mode-toggle button.active-mode {
   background-color: #ffe066;
   color: #333;
+  transform: scale(1.05);
+}
+
+/* 「次へ」ボタン用スタイル */
+.next-stage-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #d4f9d4;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 100, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.next-stage-btn:hover {
   transform: scale(1.05);
 }
