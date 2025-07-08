@@ -12,18 +12,28 @@ let litButtons = new Set();
 let pressedButtons = new Set();
 let previousLit = [];
 
+
+
 let puzzleStage = 0;
-const puzzleStages = [
-  [0],
-  [1, 8],
-  [0, 4, 8],
-  [0, 2, 6, 8],
-  [1, 3, 4, 5, 7],
-  [0, 1, 2, 6, 7],
-  [3, 4, 5],
-  [0, 2, 4, 6, 8],
-  [0, 1, 2, 3, 4, 5, 6, 7, 8]
-];
+let puzzleStages = [];
+
+function generatePuzzleStages(stageCount = 9) {
+  puzzleStages = [];
+
+  for (let level = 1; level <= stageCount; level++) {
+    const litCount = Math.min(level, 9); // 最大9個まで
+    const indices = Array.from({ length: 9 }, (_, i) => i);
+
+    // ランダムシャッフル
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+
+    const selected = indices.slice(0, litCount).sort((a, b) => a - b);
+    puzzleStages.push(selected);
+  }
+}
 
 const toggleMap = {
   0: [0, 1, 3],
@@ -153,6 +163,9 @@ function updateStageLabel() {
   }
 }
 
+
+
+
 function resetGame() {
   litButtons.clear();
   pressedButtons.clear();
@@ -163,9 +176,11 @@ function resetGame() {
     lightRandomButtons();
   } else {
     puzzleStage = 0;
+    generatePuzzleStages(); // ← ステージ自動生成！
     loadPuzzleStage();
   }
 }
+
 
 function updateModeButtons() {
   switchToRandom.classList.toggle("active-mode", mode === "random");
