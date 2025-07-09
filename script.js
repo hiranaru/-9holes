@@ -12,19 +12,15 @@ let litButtons = new Set();
 let pressedButtons = new Set();
 let previousLit = [];
 
-
-
 let puzzleStage = 0;
 let puzzleStages = [];
 
 function generatePuzzleStages(stageCount = 9) {
   puzzleStages = [];
-
   for (let level = 1; level <= stageCount; level++) {
-    const litCount = Math.min(level, 9); // 最大9個まで
+    const litCount = Math.min(level, 9);
     const indices = Array.from({ length: 9 }, (_, i) => i);
 
-    // ランダムシャッフル
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [indices[i], indices[j]] = [indices[j], indices[i]];
@@ -97,7 +93,7 @@ function updateLighting() {
 function handlePress(index) {
   if (mode === "random") {
     if (litButtons.has(index)) {
-      playSound();  // ✅ 光ってるときだけ音を鳴らす
+      playSound();
       pressedButtons.add(index);
       litButtons.delete(index);
       buttons[index].classList.remove("active");
@@ -108,9 +104,8 @@ function handlePress(index) {
         lightRandomButtons();
       }
     }
-    // 光ってないボタンは無反応
   } else if (mode === "puzzle") {
-    playSound();  // パズルモードは毎回音を鳴らす
+    playSound();
     toggleMap[index].forEach(i => {
       litButtons.has(i) ? litButtons.delete(i) : litButtons.add(i);
     });
@@ -163,9 +158,6 @@ function updateStageLabel() {
   }
 }
 
-
-
-
 function resetGame() {
   litButtons.clear();
   pressedButtons.clear();
@@ -176,11 +168,10 @@ function resetGame() {
     lightRandomButtons();
   } else {
     puzzleStage = 0;
-    generatePuzzleStages(); // ← ステージ自動生成！
+    generatePuzzleStages();
     loadPuzzleStage();
   }
 }
-
 
 function updateModeButtons() {
   switchToRandom.classList.toggle("active-mode", mode === "random");
@@ -206,6 +197,14 @@ switchToPuzzle.addEventListener("click", () => {
 });
 
 resetBtn.addEventListener("click", resetGame);
+
+// ✅ 初回タッチで音を一瞬再生してラグ対策
+document.addEventListener("touchstart", () => {
+  popSound.play().then(() => {
+    popSound.pause();
+    popSound.currentTime = 0;
+  }).catch(() => {});
+}, { once: true });
 
 createButtons();
 updateModeButtons();
