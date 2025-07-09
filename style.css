@@ -36,15 +36,15 @@ body::before {
   max-width: 430px;
   height: 100dvh;
   box-sizing: border-box;
+  padding: 0;
   overflow: hidden;
-  padding-bottom: 80px; /* ボタン用の下部スペース確保 */
 }
 
 .logo-image {
   width: 150px;
   height: auto;
-  margin-top: 0;
-  padding-top: 8px;
+  margin: 0;
+  padding: 0;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -62,7 +62,7 @@ body::before {
   font-size: 14px;
   text-align: center;
   color: #333;
-  margin: 12px 20px 0;
+  margin: 12px 20px;
   line-height: 1.5;
   max-width: 360px;
 }
@@ -72,7 +72,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 0;
+  padding: 20px 0;
 }
 
 .hole-grid {
@@ -125,7 +125,7 @@ body::before {
 
 .mode-toggle {
   position: fixed;
-  bottom: 12px;
+  bottom: env(safe-area-inset-bottom, 12px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
