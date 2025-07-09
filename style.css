@@ -40,21 +40,19 @@ body::before {
   overflow: hidden;
 }
 
-.logo-image {
-  width: 150px;
-  height: auto;
-  margin: 0;
-  padding: 0;
-  user-select: none;
-  -webkit-user-drag: none;
+.upper-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
 }
 
-.stage-label {
+.game-title {
   font-size: 28px;
   font-weight: bold;
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-  margin-top: 4px;
+  font-family: 'Kiwi Maru', 'Segoe UI', sans-serif;
 }
 
 .mode-description {
@@ -62,9 +60,18 @@ body::before {
   font-size: 14px;
   text-align: center;
   color: #333;
-  margin: 12px 20px;
+  margin: 12px 20px 0;
   line-height: 1.5;
   max-width: 360px;
+}
+
+.stage-label {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  text-align: center;
+  margin-top: 8px;
 }
 
 .center-grid {
