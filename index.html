@@ -6,10 +6,22 @@
   <title>9 Holes</title>
   <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 念のため背景動画を最背面に固定 */
+    .background-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-  <!-- 背景動画 -->
-  <video autoplay muted loop playsinline class="background-video">
+  <!-- ✅ 背景動画（スマホ対応完備） -->
+  <video autoplay muted loop playsinline class="background-video" id="bgVideo">
     <source src="back_movietest.mp4" type="video/mp4" />
   </video>
 
@@ -35,6 +47,30 @@
   </div>
 
   <audio id="popSound" src="popdry.mp3" preload="auto"></audio>
+
+  <!-- ✅ 自動再生バックアップ用 JS（スマホ対応） -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const video = document.getElementById("bgVideo");
+      if (video) {
+        // 一度試みる（通常再生）
+        const attemptPlay = video.play();
+        if (attemptPlay !== undefined) {
+          attemptPlay.catch(() => {
+            // ユーザー操作後に再生をトリガー
+            const resumeOnTouch = () => {
+              video.play();
+              document.body.removeEventListener("touchstart", resumeOnTouch);
+              document.body.removeEventListener("click", resumeOnTouch);
+            };
+            document.body.addEventListener("touchstart", resumeOnTouch, { once: true });
+            document.body.addEventListener("click", resumeOnTouch, { once: true });
+          });
+        }
+      }
+    });
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
